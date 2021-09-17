@@ -1,0 +1,28 @@
+ // Recuperation des commentaire
+    $liste_commentaires = $pdo->prepare("SELECT * FROM commentaire WHERE annonce_id = $id_annonce ORDER BY date_enregistrement DESC" ) ;
+    $liste_commentaires->execute();
+
+   
+
+<table class="table bg-light table-bordered  text-center rounded">
+                    <thead class="">
+                        <tr class="text-white star">
+                        
+                             <th>nom</th> 
+                            <th>commentaire</th>
+                            <th>date </th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                         while($commentaire = $liste_commentaires->fetch(PDO::FETCH_ASSOC)){
+                             $rec_membre = $pdo->query('SELECT pseudo FROM membre WHERE id_membre = '.$commentaire['membre_id'].'');
+                             $membre= $rec_membre->fetch(PDO::FETCH_ASSOC);
+                                 echo '<tr><td>'.$membre['pseudo'].'</td>
+                                 <td>'.$commentaire['commentaire'] .'</td>
+                                 <td>'.$commentaire['date_enregistrement'].'</td></tr>' ;      
+                     }
+                    ?>  
+                    </tbody>
+                    </table>
